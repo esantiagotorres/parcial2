@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Parcial2</title>
+</head>
+<body>
+
+<script 
+src="https://cdnjs.cloudflare.com/ajax/libs/three.js/94/three.min.js"
+integrity="sha512-ZGgXd6TB5qjtvTU6Q5o/LJM4pwLNy8U8XXJh+vJZDXp2wC8ASrl4WOeivaq2fpYc3TnTCLzyDvVjY8YhvNYaXg=="
+crossorigin="anonymous"> </script>
+
+
+<script>
+var scene;
+var camera;
+var renderer;
+var material;
+var barraPlayer;
+var barraPC;
+var bola, bolaVelx, bolaVelz;
+var velocidad = 20;
+
+function createCamera() {
+  camera = new THREE.PerspectiveCamera(
+			60,window.innerWidth / window.innerHeight,1,	5000);
+
+		camera.position.y = 25 ;
+		camera.position.z = 40 ;
+		camera.rotation.x = -45 ;
+}
+
+function createRenderer() {
+renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+}
+
+function createLightDirectional() {
+let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.name = "luz direccional";
+directionalLight.position.set(-15, 10, 0);
+scene.add(directionalLight);
+}
+
+function createLightDirectional2() {
+let directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.name = "luz direccional";
+directionalLight.position.set(15, 10, 0);
+scene.add(directionalLight);
+}
+
+
+function boll(){
+bola = new THREE.Mesh(
+			new THREE.SphereGeometry(1 ,50,50),
+			new THREE.MeshLambertMaterial( {color: 0x3737ff} )
+		);
+		bola.position.y = 0.5 ;
+		bola.overdraw = true;
+		scene.add( bola );  
+}
+
+    function barraJu(){
+      barraPlayer = new THREE.Mesh(
+			new THREE.CylinderGeometry(
+				1 ,1 ,6 ,50,50,false
+			),
+			new THREE.MeshLambertMaterial( {color: 0x80ff80} )
+		);
+		barraPlayer.position.y = 0.5 ;
+		barraPlayer.position.z = 25 ;
+		barraPlayer.rotation.z = 90 ;
+		barraPlayer.overdraw = true;
+    scene.add( barraPlayer );
+		
+}
+
+function barraP(){
+barraPC = new THREE.Mesh(
+			new THREE.CylinderGeometry(
+				2 ,1 ,7 ,50,60,false
+			),
+			new THREE.MeshLambertMaterial( {color: 0xcc0000} )
+		);
+		barraPC.position.y = 0.5 ;
+		barraPC.position.z = -25 ;
+		barraPC.rotation.z = 90 ;
+		barraPC.overdraw = true;
+		scene.add( barraPC );
+}
+
+function moverB(){
+  document.addEventListener("keydown", function(e){
+      if(e.keyCode == '39') {
+        barraPC;
+      }
+      if(e.keyCode == '37') {
+        barraPC;
+      }
+  })
+  
+    barraPC += velocidad;
+    barraPC.style = barraJu+"px"; 
+    barraPC =- velocidad;
+    barraPC.style = barraJu+"px";
+}
+
+function init() {
+//create scene
+scene = new THREE.Scene();
+//create camera
+createCamera();
+
+//create light directional
+createLightDirectional();
+createLightDirectional2()
+//create light point
+
+//create rederer
+createRenderer();
+//element render
+}
+function animate(time) {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+}
+init();
+requestAnimationFrame(animate);
+barraJu();
+barraP();
+boll();
+moverB();
+</script>
+</body>
+</html>
